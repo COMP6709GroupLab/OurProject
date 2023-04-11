@@ -33,6 +33,7 @@ export function getSystemPrompt(promptConfig: PromptConfig) {
 
   return shouldShowTimestamp ? promptWithTimestamp : betterPrompt
 }
+// mzm's task is to change the content of Prompt
 export function getUserSubtitlePrompt(title: string, transcript: any, videoConfig: VideoConfig) {
   const videoTitle = title?.replace(/\n+/g, ' ').trim()
   const videoTranscript = limitTranscriptByteLength(transcript).replace(/\n+/g, ' ').trim()
@@ -40,12 +41,14 @@ export function getUserSubtitlePrompt(title: string, transcript: any, videoConfi
   const sentenceCount = videoConfig.sentenceNumber || 7
   const emojiTemplateText = videoConfig.showEmoji ? '[Emoji] ' : ''
   const emojiDescriptionText = videoConfig.showEmoji ? 'Choose an appropriate emoji for each bullet point. ' : ''
+  // the outline level means the maximum child hierarchical structures in the outline should be shown
   const shouldShowAsOutline = Number(videoConfig.outlineLevel) > 1
   const wordsCount = videoConfig.detailLevel ? (Number(videoConfig.detailLevel) / 100) * 2 : 15
   const outlineTemplateText = shouldShowAsOutline ? `\n    - Child points` : ''
   const outlineDescriptionText = shouldShowAsOutline
     ? `Use the outline list, which can have a hierarchical structure of up to ${videoConfig.outlineLevel} levels. `
     : ''
+  // we give an template formnat for the output prompt, which will be used in openai API to generate the formatted summary.
   const prompt = `Your output should use the following template:\n## Summary\n## Highlights\n- ${emojiTemplateText}Bulletpoint${outlineTemplateText}\n\nYour task is to summarise the text I have given you in up to ${sentenceCount} concise bullet points, starting with a short highlight, each bullet point is at least ${wordsCount} words. ${outlineDescriptionText}${emojiDescriptionText}Use the text above: {{Title}} {{Transcript}}.\n\nReply in ${language} Language.`
 
   return `Title: "${videoTitle}"\nTranscript: "${videoTranscript}"\n\nInstructions: ${prompt}`

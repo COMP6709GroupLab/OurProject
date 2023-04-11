@@ -132,7 +132,7 @@ export const Home: NextPage<{
     if (!videoId) {
       return
     }
-
+    // for bilibili video with many pages, there videoIds are the same so we need pageNumber to classify them.
     const pageNumber = extractPage(currentVideoUrl, searchParams)
     setCurrentVideoId(videoId)
     await summarize(

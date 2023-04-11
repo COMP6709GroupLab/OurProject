@@ -31,22 +31,22 @@ export function SummaryResult({
     : summary
 
   const { summaryArray, formattedSummary } = formatSummary(formattedCachedSummary)
-  const summaryNote = formattedSummary + '\n\n#BibiGPT https://b.jimmylv.cn @吕立青_JimmyLv \nBV1fX4y1Q7Ux'
+  const summaryNote = formattedSummary + '\n\n#PolyGPT https://b.jimmylv.cn @吕立青_JimmyLv \nBV1fX4y1Q7Ux'
 
   const handleCopy = () => {
     if (!isSecureContext) {
-      toast({ description: '复制错误 ❌' })
+      toast({ description: 'Copy Wrong ❌' })
       return
     }
     navigator.clipboard.writeText(summaryNote)
-    toast({ description: '复制成功 ✂️' })
+    toast({ description: 'Copy successfully ✂️' })
   }
 
   return (
     <div className="mb-8 px-4">
       <h3 className="m-8 mx-auto max-w-3xl border-t-2 border-dashed pt-8 text-center text-2xl font-bold sm:text-4xl">
         <a href={currentVideoUrl} className="hover:text-pink-600 hover:underline" target="_blank" rel="noreferrer">
-          {`【📝 总结：${currentVideoId}】`}
+          {`【📝 Summary: ${currentVideoId}】`}
         </a>
       </h3>
       <div className="mt-6 grid grid-cols-2 items-center gap-x-10 gap-y-2 md:mt-10 md:grid-cols-3 md:gap-y-6"></div>

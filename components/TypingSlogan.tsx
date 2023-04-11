@@ -7,7 +7,7 @@ export function TypingSlogan() {
     <>
       <h1 className="h-[5rem] w-full text-center text-4xl font-bold sm:w-[64rem] sm:text-5xl">
         Summarize{' '}
-        <span className="relative whitespace-nowrap	text-pink-400">
+        <span className="relative whitespace-nowrap	text-blue-500">
           <SquigglyLines />
           Bilibili
           {/* <TypeAnimation

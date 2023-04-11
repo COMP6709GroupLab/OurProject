@@ -14,7 +14,8 @@ export default function Header({ showSingIn }: { showSingIn: (show: boolean) => 
       <div className="flex items-center justify-between px-3 sm:px-3">
         <div className="flex items-center space-x-3">
           <h2 className={clsx('text-lg sm:text-2xl', poppins.className)}>
-            <span className="text-red-400">Bilibili Summary</span> PolyGPT
+            <span className="font-semibold italic text-blue-500">Bilibili Summary </span>{' '}
+            <span className="ml-2 text-red-500">Poly</span>GPT
           </h2>
         </div>
         {/* <div className="flex shrink-0 items-center space-x-2 sm:space-x-5">

@@ -67,7 +67,7 @@ export function useSummarize(showSingIn: (show: boolean) => void, enableStream: 
         setLoading(false)
         return
       }
-
+      // here, we successfully get the summary answer and show it on the page.
       if (enableStream) {
         // This data is a ReadableStream
         const data = response.body
@@ -83,6 +83,7 @@ export function useSummarize(showSingIn: (show: boolean) => void, enableStream: 
           const { value, done: doneReading } = await reader.read()
           done = doneReading
           const chunkValue = decoder.decode(value)
+          // we show the summary word by word, so we use 'prev+', when we finish the decoding, the loop is over.
           setSummary((prev) => prev + chunkValue)
         }
         setLoading(false)

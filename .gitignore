@@ -45,3 +45,6 @@ next.config.original.js
 
 # lockfile
 pnpm-lock.yaml
+
+**/venv
+data

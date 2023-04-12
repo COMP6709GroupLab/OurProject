@@ -27,5 +27,26 @@ export enum VideoService {
 export type CommonSubtitleItem = {
   text: string
   index: number
-  s?: number | string
+  s?: number | string // start time of this subtitle
+}
+
+export type Comment = {
+  text: string
+  like: number // 点赞
+  // other data...
+}
+
+export type Barrage = {
+  // 弹幕
+  text: string
+  s?: number | string // start time
+  // other data...
+}
+
+export type VideoData = {
+  title: string
+  subtitlesArray?: null | Array<CommonSubtitleItem>
+  descriptionText?: string
+  comments?: null | Array<Comment>
+  barrages?: null | Array<Barrage>
 }

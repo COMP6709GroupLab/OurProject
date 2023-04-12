@@ -15,17 +15,31 @@ export interface ChatGPTMessage {
   role: ChatGPTAgent
   content: string
 }
+// export interface OpenAIStreamPayload {
+//   api_key?: string
+//   model: string
+//   messages: ChatGPTMessage[]
+//   temperature?: number
+//   top_p?: number
+//   frequency_penalty?: number
+//   presence_penalty?: number
+//   max_tokens: number
+//   stream: boolean
+//   n?: number
+// }
+
 export interface OpenAIStreamPayload {
-  api_key?: string
   model: string
-  messages: ChatGPTMessage[]
+
+  prompt?: string
+  messages?: ChatGPTMessage[]
+
   temperature?: number
   top_p?: number
   frequency_penalty?: number
   presence_penalty?: number
   max_tokens: number
   stream: boolean
-  n?: number
 }
 
 export async function fetchOpenAIResult(payload: OpenAIStreamPayload, apiKey: string, videoConfig: VideoConfig) {

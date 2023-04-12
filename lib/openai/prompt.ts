@@ -33,7 +33,7 @@ export function getSystemPrompt(promptConfig: PromptConfig) {
 
   return shouldShowTimestamp ? promptWithTimestamp : betterPrompt
 }
-// mzm's task is to change the content of Prompt
+// our task is to change the content of Prompt
 export function getUserSubtitlePrompt(title: string, transcript: any, videoConfig: VideoConfig) {
   const videoTitle = title?.replace(/\n+/g, ' ').trim()
   const videoTranscript = limitTranscriptByteLength(transcript).replace(/\n+/g, ' ').trim()

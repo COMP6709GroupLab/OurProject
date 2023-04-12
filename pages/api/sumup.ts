@@ -1,11 +1,3 @@
-/*
- * @Author: Zhimin Mei 61093107+mzm1183710118@users.noreply.github.com
- * @Date: 2023-04-11 19:22:07
- * @LastEditors: Zhimin Mei 61093107+mzm1183710118@users.noreply.github.com
- * @LastEditTime: 2023-04-11 22:43:02
- * @FilePath: /OurProject/pages/api/sumup.ts
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
- */
 import type { NextFetchEvent, NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 import { fetchSubtitle } from '~/lib/fetchSubtitle'

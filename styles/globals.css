@@ -5,3 +5,18 @@
 ::selection {
   background: #8bf3fc;
 }
+
+.chatGPTbg {
+  background-image: url('../chatgpt.webp');
+  background-size: cover;
+  color: #fff;
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  background-clip: text;
+  font-family: Catamaran, sans-serif;
+  font-size: 1.5em;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+}

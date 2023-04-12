@@ -36,7 +36,9 @@ export function TypingSlogan() {
         <br />
       </h1>
 
-      <h1 className="mt-4 w-full text-center text-4xl font-bold sm:w-[64rem] sm:text-5xl">Powered by GPT-3.5 AI</h1>
+      <h1 className="mt-4 w-full text-center text-4xl font-bold sm:w-[64rem] sm:text-4xl">
+        Powered by <span className="chatGPTbg">GPT-3.5</span> AI
+      </h1>
     </>
   )
 }

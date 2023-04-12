@@ -6,6 +6,20 @@
 - Run `npm install`
 - Run `npm run dev`
 
+If you want to launch data storage server:
+
+- Set env variables in `.env`
+
+```
+DATA_SERVER_ENABLE=true
+DATA_SERVER_HOSTNAME=http://localhost:5001
+```
+
+- `cd server`
+- `node server.js`
+
+Then it will store the video data, user prompt and the result to the folder `data`
+
 ## Main Workflow
 
 1. The <body> of HomePage is written in `pages/[...slug].tsx`.

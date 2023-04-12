@@ -1,15 +1,8 @@
 import { fetchBilibiliSubtitle } from './bilibili/fetchBilibiliSubtitle'
-import { CommonSubtitleItem, VideoConfig, VideoService } from './types'
+import { CommonSubtitleItem, VideoConfig, VideoData, VideoService } from './types'
 import { fetchYoutubeSubtitle } from './youtube/fetchYoutubeSubtitle'
 
-export async function fetchSubtitle(
-  videoConfig: VideoConfig,
-  shouldShowTimestamp?: boolean,
-): Promise<{
-  title: string
-  subtitlesArray?: null | Array<CommonSubtitleItem>
-  descriptionText?: string
-}> {
+export async function fetchSubtitle(videoConfig: VideoConfig, shouldShowTimestamp?: boolean): Promise<VideoData> {
   const { service, videoId, pageNumber } = videoConfig
   console.log('video: ', videoConfig)
   if (service === VideoService.Youtube) {

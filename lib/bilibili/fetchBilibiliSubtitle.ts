@@ -1,5 +1,7 @@
 import { reduceBilibiliSubtitleTimestamp } from '~/utils/reduceSubtitleTimestamp'
 import { fetchBilibiliSubtitleUrls } from './fetchBilibiliSubtitleUrls'
+import { fetchBilibiliBarrageUrls } from './fetchBilibiliBarrageUrls'
+import { fetchBilibiliCommentsUrls } from './fetchBilibiliCommentsUrls'
 
 export async function fetchBilibiliSubtitle(
   videoId: string,
@@ -7,6 +9,13 @@ export async function fetchBilibiliSubtitle(
   shouldShowTimestamp?: boolean,
 ) {
   const res = await fetchBilibiliSubtitleUrls(videoId, pageNumber)
+  // mzm: add fetchBilibiliBarrageUrls
+  const barrageInfo = await fetchBilibiliBarrageUrls(videoId, pageNumber)
+  // const {barrage} = barrageInfo
+  // add fetchBilibiliCommentsUrls
+  // const commentInfo = await fetchBilibiliCommentsUrls(videoId, pageNumber)
+  // const {comment} = commentInfo
+  // console.log('comment', comment)
   const { title, desc, dynamic, subtitle } = res || {}
   const hasDescription = desc || dynamic
   const descriptionText = hasDescription ? `${desc} ${dynamic}` : undefined

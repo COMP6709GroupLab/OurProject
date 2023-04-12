@@ -22,7 +22,7 @@ Then it will store the video data, user prompt and the result to the folder `dat
 
 ## Main Workflow
 
-1. The <body> of HomePage is written in `pages/[...slug].tsx`.
+1. The `<body>` of HomePage is written in `pages/[...slug].tsx`.
 2. When we click the "一键总结" button, the async function **generateSummary( )** will be called, which will wait for the result of another function **summarize( )** defined in `hooks/useSummarize.ts`
 3. Next, it will `POST` the `/api/sumup`(file path is: `pages/api/sumup.ts`), and in the **handler** function, we process the request in 3 steps.
    1. use the **fetchSubtitle( )** function(file path: `lib/fetchSubtitle.ts`) to get the { title, subtitlesArray, descriptionText }

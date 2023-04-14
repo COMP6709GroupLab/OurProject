@@ -1,17 +1,13 @@
-import { find, sample } from '~/utils/fp'
+import { sample } from '~/utils/fp'
+import { Barrage } from '~/lib/types'
 
-type BilibiliBarrages = {
-  barrageTime: number
-  barrageText: string
+export async function fetchBilibiliBarrageUrls(videoId: string, pageNumber?: null | string): Promise<Barrage[]> {
+  const cid = await getVideoCid(videoId)
+  const xmlText = await getBarrageXmlText(cid)
+  return parseBarrageXmlText(xmlText)
 }
 
-interface BarrageInfo {
-  barrage?: {
-    list: BilibiliBarrages[]
-  }
-}
-
-export const fetchBilibiliBarrageUrls = async (videoId: string, pageNumber?: null | string): Promise<void> => {
+async function getVideoCid(videoId: string): Promise<number> {
   const sessdata = sample(process.env.BILIBILI_SESSION_TOKEN?.split(','))
   const headers = {
     Accept: 'application/json, text/xml',
@@ -37,11 +33,28 @@ export const fetchBilibiliBarrageUrls = async (videoId: string, pageNumber?: nul
   const json = await response.json()
   const cid = json.data[0].cid
   console.log(`cid:`, cid)
-  // use the cid to get the barrage file, e.g:https://api.bilibili.com/x/v1/dm/list.so?oid=1058578591 or https://comment.bilibili.com/1058578591.xml
-  const params2 = `${cid}`
-  const requestUrl2 = `https://api.bilibili.com/x/v1/dm/list.so?oid=${params2}`
-  console.log(`fetch barrage from:`, requestUrl2)
-  const response2 = await fetch(requestUrl2, commonConfig)
-  const XMLtext = await response2.text()
-  //   return json2.data
+
+  return cid
+}
+
+async function getBarrageXmlText(cid: number): Promise<string> {
+  const requestUrl = process.env.DATA_SERVER_HOSTNAME + '/barrage/' + cid
+  const response = await fetch(requestUrl, { method: 'GET', headers: { Accept: 'text/xml' } })
+  const xmlText = await response.text()
+  // console.log(xmlText)
+  return xmlText
+}
+
+function parseBarrageXmlText(xmlText: string): Barrage[] {
+  const barrageList: Barrage[] = []
+  const regex = /<d p="(.+?)">(.+?)<\/d>/g
+  let match
+  while ((match = regex.exec(xmlText)) !== null) {
+    const arr = match[1].split(',')
+    const time = parseFloat(arr[0]),
+      timestamp = parseInt(arr[4])
+    const text = match[2]
+    barrageList.push({ time, timestamp, text })
+  }
+  return barrageList
 }

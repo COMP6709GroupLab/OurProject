@@ -1,18 +1,8 @@
 import { PassThrough } from 'stream'
 import { find, sample } from '~/utils/fp'
+import { Comment } from '~/lib/types'
 
-interface Comment {
-  like: number
-  message: string
-}
-
-interface CommentsInfo {
-  comment?: {
-    list: Comment[]
-  }
-}
-
-export const fetchBilibiliCommentsUrls = async (videoId: string, pageNumber?: null | string): Promise<CommentsInfo> => {
+export async function fetchBilibiliCommentsUrls(videoId: string, pageNumber?: null | string): Promise<Comment[]> {
   const sessdata = sample(process.env.BILIBILI_SESSION_TOKEN?.split(','))
   const headers = {
     Accept: 'application/json',
@@ -42,9 +32,8 @@ export const fetchBilibiliCommentsUrls = async (videoId: string, pageNumber?: nu
   const json2 = await response2.json()
   const comments: Comment[] = json2.data.replies.map((reply: any) => ({
     like: reply.like,
-    message: reply.content.message,
+    text: reply.content.message,
   }))
-  const result = { comment: { list: comments } }
-  console.log(`comments length`, result.comment.list.length)
-  return result
+  console.log(`comments length`, comments.length)
+  return comments
 }

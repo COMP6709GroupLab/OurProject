@@ -1,7 +1,6 @@
 const http = require('http')
 const fs = require('fs')
 const path = require('path')
-const zlib = require('zlib')
 const { URL } = require('url')
 
 const UPLOAD_FOLDER = path.join(__dirname, '..', 'data')
@@ -45,45 +44,22 @@ const server = http.createServer(async (req, res) => {
     const [_0, _1, cid] = pathname.split('/')
     console.log('get barrage: ', cid)
 
-    const url = `http://api.bilibili.com/x/v1/dm/list.so?oid=${cid}`
-    const options = new URL(url)
-    options.headers = {
-      Accept: 'text/xml',
-      'User-Agent':
-        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36',
-      'Accept-Encoding': 'gzip, deflate, br',
-      Host: 'api.bilibili.com',
-    }
+    const { default: axios } = await import('axios')
 
-    http
-      .get(options, (response) => {
-        const { statusCode, headers } = response
-        let xml = ''
+    const resp = await axios.get(`https://api.bilibili.com/x/v1/dm/list.so?oid=${cid}`, {
+      headers: {
+        Accept: 'text/xml',
+        'User-Agent':
+          'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36',
+        'Accept-Encoding': 'gzip, deflate, br',
+        Host: 'api.bilibili.com',
+      },
+    })
+    const text = resp.data.toString()
+    console.log('barrage: ', text.slice(0, 100))
 
-        if (statusCode !== 200) {
-          res.writeHead(statusCode)
-          res.end(`Request failed with status code ${statusCode}`)
-          return
-        }
-
-        const encoding = headers['content-encoding']
-        const isGzipped = encoding === 'gzip'
-        const stream = isGzipped ? response.pipe(zlib.createGunzip()) : response
-
-        stream.on('data', (chunk) => {
-          xml += chunk
-        })
-
-        stream.on('end', () => {
-          res.writeHead(200, {
-            'Content-Type': 'text/xml',
-          })
-          res.end(xml)
-        })
-      })
-      .on('error', (error) => {
-        console.error(error)
-      })
+    res.writeHead(200)
+    res.end(text)
   } else {
     res.writeHead(404)
     res.end('Not Found')

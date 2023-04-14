@@ -95,8 +95,8 @@ export const Home: NextPage<{
       !(videoUrl.includes('bilibili.com/video') || videoUrl.includes('youtube.com'))
     ) {
       toast({
-        title: '暂不支持此视频链接',
-        description: '请输入哔哩哔哩或YouTub视频链接，已支持b23.tv短链接',
+        title: 'Unrecognizable video link',
+        description: 'Please input a valid Bilibili video link',
       })
       return
     }
@@ -168,7 +168,7 @@ export const Home: NextPage<{
   }
 
   return (
-    <div className="mt-10 w-full px-4 sm:mt-40 lg:px-0">
+    <div className="mt-10 w-full px-4 sm:mt-20 lg:px-0">
       <UsageDescription />
       <TypingSlogan />
       <UsageAction />
@@ -179,7 +179,7 @@ export const Home: NextPage<{
           value={currentVideoUrl}
           onChange={handleInputChange}
           className="mx-auto mt-10 w-full appearance-none rounded-lg rounded-md border bg-transparent py-2 pl-2 text-sm leading-6 text-slate-900 shadow-sm ring-1 ring-slate-200 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          placeholder={'输入 bilibili.com/youtube.com 视频链接，按下「回车」'}
+          placeholder={'Input bilibili.com video link, then press ENTER'}
         />
         <SubmitButton loading={loading} />
         <PromptOptions getValues={getValues} register={register} />

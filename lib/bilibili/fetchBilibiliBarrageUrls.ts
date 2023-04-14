@@ -41,7 +41,7 @@ async function getBarrageXmlText(cid: number): Promise<string> {
   const requestUrl = process.env.DATA_SERVER_HOSTNAME + '/barrage/' + cid
   const response = await fetch(requestUrl, { method: 'GET', headers: { Accept: 'text/xml' } })
   const xmlText = await response.text()
-  // console.log(xmlText)
+  console.log('xmlText:', xmlText.slice(0, 100) + '...')
   return xmlText
 }
 
@@ -56,5 +56,6 @@ function parseBarrageXmlText(xmlText: string): Barrage[] {
     const text = match[2]
     barrageList.push({ time, timestamp, text })
   }
+  console.log(`barrageList length:`, barrageList.length)
   return barrageList
 }

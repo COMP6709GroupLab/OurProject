@@ -1,5 +1,5 @@
 import { limitTranscriptByteLength } from '~/lib/openai/getSmallSizeTranscripts'
-import { VideoConfig } from '~/lib/types'
+import { VideoConfig, VideoData } from '~/lib/types'
 import { DEFAULT_LANGUAGE, PROMPT_LANGUAGE_MAP } from '~/utils/constants/language'
 
 interface PromptConfig {
@@ -34,7 +34,7 @@ export function getSystemPrompt(promptConfig: PromptConfig) {
   return shouldShowTimestamp ? promptWithTimestamp : betterPrompt
 }
 // our task is to change the content of Prompt
-export function getUserSubtitlePrompt(title: string, transcript: any, videoConfig: VideoConfig) {
+export function getUserSubtitlePrompt(title: string, transcript: any, videoData: VideoData, videoConfig: VideoConfig) {
   const videoTitle = title?.replace(/\n+/g, ' ').trim()
   const videoTranscript = limitTranscriptByteLength(transcript).replace(/\n+/g, ' ').trim()
   const language = videoConfig.outputLanguage || DEFAULT_LANGUAGE
@@ -49,9 +49,19 @@ export function getUserSubtitlePrompt(title: string, transcript: any, videoConfi
     ? `Use the outline list, which can have a hierarchical structure of up to ${videoConfig.outlineLevel} levels. `
     : ''
   // we give an template formnat for the output prompt, which will be used in openai API to generate the formatted summary.
-  const prompt = `Your output should use the following template:\n## Summary\n## Highlights\n- ${emojiTemplateText}Bulletpoint${outlineTemplateText}\n\nYour task is to summarise the text I have given you in up to ${sentenceCount} concise bullet points, starting with a short highlight, each bullet point is at least ${wordsCount} words. ${outlineDescriptionText}${emojiDescriptionText}Use the text above: {{Title}} {{Transcript}}.\n\nReply in ${language} Language.`
+  const prompt = `Your output should use the following template:
+## Summary
+## Highlights
+- ${emojiTemplateText}Bulletpoint${outlineTemplateText}
 
-  return `Title: "${videoTitle}"\nTranscript: "${videoTranscript}"\n\nInstructions: ${prompt}`
+Your task is to summarise the text I have given you in up to ${sentenceCount} concise bullet points, starting with a short highlight, each bullet point is at least ${wordsCount} words. ${outlineDescriptionText}${emojiDescriptionText}Use the text above: {{Title}} {{Transcript}}.
+
+Reply in ${language} Language.`
+
+  return `Title: ${videoTitle}
+Transcript: ${videoTranscript}
+
+Instructions: ${prompt}`
 }
 
 export function getUserSubtitleWithTimestampPrompt(title: string, transcript: any, videoConfig: VideoConfig) {

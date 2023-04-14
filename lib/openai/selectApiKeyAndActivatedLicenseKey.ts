@@ -21,3 +21,9 @@ export async function selectApiKeyAndActivatedLicenseKey(apiKey?: string, videoI
   const luckyApiKey = sample(myApiKeyList?.split(','))
   return luckyApiKey || ''
 }
+
+export function getApiKey() {
+  const myApiKeyList = process.env.OPENAI_API_KEY
+  const luckyApiKey = sample(myApiKeyList?.split(','))
+  return luckyApiKey || ''
+}

@@ -35,5 +35,14 @@ export async function fetchBilibiliCommentsUrls(videoId: string, pageNumber?: nu
     text: reply.content.message,
   }))
   console.log(`comments length`, comments.length)
+
+  // clean the comments
+  comments.forEach((comment) => {
+    comment.text = comment.text
+      .split('\n')
+      .filter((line) => line.length > 0)
+      .join(' ')
+  })
+
   return comments
 }

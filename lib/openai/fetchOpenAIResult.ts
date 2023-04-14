@@ -3,6 +3,7 @@ import { createParser, ParsedEvent, ReconnectInterval } from 'eventsource-parser
 import { trimOpenAiResult } from '~/lib/openai/trimOpenAiResult'
 import { VideoConfig } from '~/lib/types'
 import { isDev } from '~/utils/env'
+import { getApiKey } from '~/lib/openai/selectApiKeyAndActivatedLicenseKey'
 // import { getCacheId } from '~/utils/getCacheId'
 
 export enum ChatGPTAgent {
@@ -40,6 +41,48 @@ export interface OpenAIStreamPayload {
   presence_penalty?: number
   max_tokens: number
   stream: boolean
+}
+
+export async function fetchOpenAiApi(videoConfig: VideoConfig, userPrompt: string) {
+  // after constructing the userPromt, we call the openai API to get the answer.
+  try {
+    const stream = false // must return a string
+    const openAiPayload = {
+      model: 'gpt-3.5-turbo',
+      messages: [
+        // { role: ChatGPTAgent.system, content: systemPrompt },
+        // { role: ChatGPTAgent.user, content: examplePrompt.input },
+        // { role: ChatGPTAgent.assistant, content: examplePrompt.output },
+        { role: ChatGPTAgent.user, content: userPrompt },
+      ],
+      // temperature: 0.5,
+      // top_p: 1,
+      // frequency_penalty: 0,
+      // presence_penalty: 0,
+      max_tokens: Number(videoConfig.detailLevel) || 800,
+      stream,
+      // n: 1,
+    }
+
+    const openaiApiKey = getApiKey()
+    // here is the fetch function for the result
+    const result = await fetchOpenAIResult(openAiPayload, openaiApiKey, videoConfig)
+
+    // never reach here as stream = false
+    // if (stream) {
+    //   const [stream0, stream1] = result.tee()
+    //   setTimeout(() => {
+    //     saveResultStream(videoConfig, stream0)
+    //   })
+    //   return new Response(stream1)
+    // }
+
+    // return NextResponse.json(result)
+    return [result, { status: 200 }]
+  } catch (error: any) {
+    console.error(error.message)
+    return [JSON.stringify({ errorMessage: error.message }), { status: 500 }]
+  }
 }
 
 export async function fetchOpenAIResult(payload: OpenAIStreamPayload, apiKey: string, videoConfig: VideoConfig) {
@@ -123,3 +166,14 @@ export async function fetchOpenAIResult(payload: OpenAIStreamPayload, apiKey: st
 
   return stream
 }
+
+// export async function fetchOpenAPIResultSimple(videoConfig: VideoConfig, prompt: string) {
+//   const resp = await openai.createChatCompletion({
+//     model: "gpt-3.5-turbo",
+//     messages: [
+//       {"role": "user", "content": prompt}
+//     ],
+//     max_tokens: Number(videoConfig.detailLevel) || 800,
+//   })
+//   return resp.data.choices[0].message?.content ?? ''
+// }

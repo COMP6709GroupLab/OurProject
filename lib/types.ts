@@ -37,10 +37,9 @@ export type Comment = {
 }
 
 export type Barrage = {
-  // 弹幕
+  time: number
+  timestamp: number
   text: string
-  s?: number | string // start time
-  // other data...
 }
 
 export type VideoData = {

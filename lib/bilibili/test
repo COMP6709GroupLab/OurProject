@@ -1,0 +1,19 @@
+{
+    "code": 0,
+    "data": {
+        "replies": [
+            {
+                "like": 25,
+                "content": {
+                    "message": "[脱单doge]"
+                }
+            },
+            {
+                "like": 40,
+                "content": {
+                    "message": "hahaha"
+                }
+            }
+        ] 
+    }
+}

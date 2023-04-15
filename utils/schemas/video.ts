@@ -10,6 +10,7 @@ export const videoConfigSchema = z.object({
   sentenceNumber: z.number().optional(),
   outlineLevel: z.number().optional(),
   commentNumber: z.number().optional(),
+  bulletCommentNumber: z.number().optional(),
 })
 
 export type VideoConfigSchema = z.infer<typeof videoConfigSchema>

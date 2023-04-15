@@ -59,6 +59,7 @@ Your task is to summarise the text I have given you in up to ${sentenceCount} co
 Reply in ${language} Language.`
 
   return `Title: ${videoTitle}
+URL: https://www.bilibili.com/video/${videoConfig.videoId}
 Transcript: ${videoTranscript}
 
 Instructions: ${prompt}`

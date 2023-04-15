@@ -9,6 +9,7 @@ import { CommonSubtitleItem, SummarizeParams, VideoConfig, VideoData } from '~/l
 import { isDev } from '~/utils/env'
 import { processComments } from '~/lib/openai/processComments'
 import { saveResult, saveUserPrompt, saveVideoData } from '~/serve/backend'
+import { processBarrage } from '~/lib/openai/processBarrage'
 
 export const config = {
   runtime: 'edge',
@@ -72,10 +73,13 @@ export default async function handler(req: NextRequest, context: NextFetchEvent)
   // get summarization (the second line of the result)
   const summarySentence = mainResult.split('\n')[1].trim()
 
+  // get bullet comments summary. file have been saved in processComments()
+  const barrageResult = await processBarrage(videoConfig, summarySentence, videoData)
+
   // get comments summary. file have been saved in processComments()
   const commentResult = await processComments(videoConfig, summarySentence, videoData)
 
-  const fullResult = [mainResult, commentResult].join('\n\n')
+  const fullResult = [mainResult, barrageResult, commentResult].join('\n\n')
   await saveResult(videoConfig, '3-full-result', fullResult)
 
   return new Response(fullResult, init0)

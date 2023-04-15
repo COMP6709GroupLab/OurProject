@@ -4,7 +4,7 @@ import { DEFAULT_LANGUAGE } from '~/utils/constants/language'
 import { fetchOpenAiApi } from '~/lib/openai/fetchOpenAIResult'
 import { saveResult, saveUserPrompt } from '~/serve/backend'
 
-const k = 10
+const k = 40
 const keywords = ['省流', '空降', '封面']
 
 export async function processComments(
@@ -37,21 +37,24 @@ async function fetchCommentSummary(
   comments: Comment[],
 ) {
   const language = videoConfig.outputLanguage || DEFAULT_LANGUAGE
-  const commentCount = videoConfig.commentNumber || 3
+  const commentCount = videoConfig.commentNumber || 5
 
-  const instruction = `Your output should use the following template:
-## Hot comments
+  const instruction = `Your output should use the following markdown template (translate the title if needed):
+
+## Selected comments
 - Bulletpoint
 
-Your task is to mining useful or interesting video comments. You should provide up to ${commentCount} concise bullet points. Avoid change comment text and keep the tone and intonation, unless it is too long. Use the text above: {{Video title}} {{Summary}} {{Comments}}. You should consider the video content via title. The comments are sorted by decreasing number of likes (which you should also consider). Interest information examples might be:
-Some jump point like 1:00
-Joke or funny comments related to the video content or the publisher
-Key information summarized by commenter
 
-Reply in ${language} Language.`
+Your task is to mine useful or interesting video comments. You should provide up to ${commentCount} concise bullet points. Don't change comment text unless it is too long, and keep the tone and intonation of original text. Use the text above: {{Video title}} {{Summary}} {{Comments}}. You should consider the video content via title and summary. The comments are sorted by decreasing number of likes (which you should also consider). Interest information examples might be:
+Key information in the video content, summarized by commenter (like price, attitude, date, etc.)
+Jump points like 1:00
+Joke or funny comments related to the video content or the publisher
+
+Reply all in ${language} Language.`
   // backup: Character painting (might with emoji like [大哭])
 
   const prompt = `Video title: ${title}
+URL: https://www.bilibili.com/video/${videoConfig.videoId}
 Summary: ${summarySentence}
 Comments:
 ${comments.map((comment, i) => `${comment.text}`).join('\n')}

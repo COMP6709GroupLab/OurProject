@@ -45,8 +45,8 @@ async function fetchCommentSummary(
 - Bulletpoint
 
 
-Your task is to mine useful or interesting video comments. You should provide up to ${commentCount} concise bullet points. Don't change comment text unless it is too long, and keep the tone and intonation of original text. Use the text above: {{Video title}} {{Summary}} {{Comments}}. You should consider the video content via title and summary. The comments are sorted by decreasing number of likes (which you should also consider). Interest information examples might be:
-Key information in the video content, summarized by commenter (like price, attitude, date, etc.)
+Your task is to mine useful or interesting video comments. You should provide up to ${commentCount} concise bullet points. Don't change comment text unless it is too long, and KEEP the tone and intonation of original text without telling them from the third person's point of view. Use the text above: {{Video title}} {{Summary}} {{Comments}}. You should consider the video content via title and summary. The comments are sorted by decreasing number of likes (which you should also consider). Interest information examples might be:
+Key information in the video content, summarized by commenter (like price, attitude, etc.)
 Jump points like 1:00
 Joke or funny comments related to the video content or the publisher
 

@@ -64,11 +64,10 @@ async function fetchBarrageSummary(
   const instruction = `Your output should use the following markdown template (translate the title if needed):
 
 ## Selected bullet comments
-\`BulletComment1\`  \`BulletComment2\`
-\`BulletComment3\`
+BulletComment1 | BulletComment2 | BulletComment3
 
 
-Your task is to find useful or interesting video bullet comments to fill in list. One for each row, if it's very short you can put the same row. Don't return other text after the bullet comment list. Don't select similar texts and make returns informative. You should provide up to ${bulletCommentNumber} comments. Avoid change text and keep the tone and intonation. Don't append other generated comment. Use the text above: {{Video title}} {{Summary}} {{Bullet comments}}. The comments are sorted by decreasing number of count. Interest information might be:
+Your task is to find useful or interesting video bullet comments to fill in list. One for each row, if it's very short you can put the same row. Don't return other text after the bullet comment list. Don't select similar texts and make returns informative. You should provide up to ${bulletCommentNumber} comments. Avoid change text and keep the tone and intonation. Use the text above: {{Video title}} {{Summary}} {{Bullet comments}}. The comments are sorted by decreasing number of count. Interest information might be:
 Key information in the video content, summarized by commenter (like price, date, timestamp, etc.)
 Jump points like 1:00
 Joke or funny comments related to the video content

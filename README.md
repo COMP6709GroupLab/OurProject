@@ -43,4 +43,4 @@ The `data/commentObjectExample.txt` shows the output format.
 
 ## fetch Barrage function
 
-I have added the function **fetchBilibiliBarrageUrls( )**(path: `lib/bilibili/fetchBilibiliBarrageUrls.ts`). However, it still have some bugs.
+I have added the function **fetchBilibiliBarrageUrls( )**(path: `lib/bilibili/fetchBilibiliBarrageUrls.ts`). 
